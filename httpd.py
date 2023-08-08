@@ -1,52 +1,9 @@
 import selectors
 import socket
+import threading
 
-
-def on_connect(sock, addr):
-    # print("Connected by", addr)
-    pass
-
-
-def on_disconnect(sock, addr):
-    # print("Disconnected by", addr)
-    pass
-
-
-def on_read_handler(sel, sock, addr):
-    try:
-        data = sock.recv(1024)  # Should be ready
-    except ConnectionError:
-        print("Client suddenly closed while receiving")
-        return False
-    if not data:
-        print("Disconnected by", addr)
-        return False
-
-    method = data.decode().split(" ")[0]
-    print("method ===>", method)
-
-    try:
-        if method == "GET":
-            sock.send(bytes("HTTP/1.1 200 OK\r\n", "utf-8"))
-            sock.send(bytes("Content-Type: text/html\r\n\r\n", "utf-8"))
-            sock.send(bytes(f"Content-Length: {len(data)}\r\n\r\n", "utf-8"))
-            sock.send(data)
-        elif method == "HEAD":
-            sock.send(bytes("HTTP/1.1 204 OK\r\n", "utf-8"))
-            sock.send(bytes(f"Content-Length: {len(data)}\r\n\r\n", "utf-8"))
-        else:
-            sock.send(bytes("HTTP/1.1 405 Not Allowed\r\n", "utf-8"))
-            sock.send(bytes("Content-Type: text/html\r\n\r\n", "utf-8"))
-
-    except ConnectionError:
-        print("Client suddenly closed, cannot send")
-        sock.close()
-        sel.unregister(sock)
-        return False
-
-    sock.close()
-    sel.unregister(sock)
-    return True
+from handlers import on_connect, on_disconnect, on_read_handler
+from utils import ports
 
 
 class SocketServ:
@@ -88,3 +45,20 @@ class SocketServ:
                 for key, mask in events:
                     callback = key.data
                     callback(sel, key.fileobj, mask)
+
+
+def create_workers(port, qty):
+    workers_ports = ports(port, qty)
+    print(workers_ports)
+    servers = [SocketServ(port) for port in workers_ports]
+    threads = [threading.Thread(target=serv.start_server) for serv in servers]
+    for th in threads:
+        th.start()
+        print(f"threads {th} started")
+
+
+start_port = 12121
+workers_qty = 1
+
+if __name__ == "__main__":
+    create_workers(port=start_port, qty=workers_qty)
