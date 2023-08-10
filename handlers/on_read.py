@@ -19,8 +19,10 @@ def on_read_handler(sel, sock, addr):
         if method == "GET":
             sock.send(bytes("HTTP/1.1 200 OK\r\n", "utf-8"))
             sock.send(bytes(f"Date: {now}\r\n", "utf-8"))
-            sock.send(bytes("Content-Type: text/html\r\n\r\n", "utf-8"))
+            sock.send(bytes("Server: socket/1.0\r\n\r\n", "utf-8"))
             sock.send(bytes(f"Content-Length: {len(data)}\r\n", "utf-8"))
+            sock.send(bytes("Content-Type: text/html\r\n\r\n", "utf-8"))
+            sock.send(bytes("Connection: close\r\n\r\n", "utf-8"))
             sock.send(data)
         elif method == "HEAD":
             sock.send(bytes("HTTP/1.1 204 OK\r\n", "utf-8"))
