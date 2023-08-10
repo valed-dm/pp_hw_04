@@ -1,4 +1,4 @@
-from utils import time_now_rfc_1123
+from utils import time_now_rfc_1123, data_decode
 
 
 def on_read_handler(sel, sock, addr):
@@ -11,9 +11,9 @@ def on_read_handler(sel, sock, addr):
         print("Disconnected by", addr)
         return False
 
-    method = data.decode().split(" ")[0]
-    print("method ===>", method)
     now = time_now_rfc_1123()
+    method, file = data_decode(data)
+    print("method ===>", method, "file ===>", file)
 
     try:
         if method == "GET":
