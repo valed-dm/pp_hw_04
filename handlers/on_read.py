@@ -3,7 +3,7 @@ import os
 from utils import time_now_rfc_1123, data_decode
 
 
-def on_read_handler(sel, sock, addr):
+def on_read_handler(sel, sock, addr, root):
     try:
         data = sock.recv(1024)  # Should be ready
     except ConnectionError:
@@ -15,7 +15,7 @@ def on_read_handler(sel, sock, addr):
 
     now = time_now_rfc_1123()
     method, file = data_decode(data)
-    file_path = os.path.abspath("DOCUMENT_ROOT/httptest/" + str(file))
+    file_path = os.path.abspath(root + str(file))
     file_size = os.path.getsize(file_path)
 
     with open(file_path, "rb") as f:

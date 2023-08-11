@@ -1,3 +1,4 @@
+import argparse
 import selectors
 import socket
 import threading
@@ -9,9 +10,10 @@ from utils import ports
 class SocketServ:
     """Socket server with callbacks"""
 
-    def __init__(self, port):
+    def __init__(self, port, root):
         self.port = port
         self.host = socket.gethostname()
+        self.root = root
         self.on_conn = on_connect
         self.on_read = on_read_handler
         self.on_disconn = on_disconnect
@@ -26,7 +28,7 @@ class SocketServ:
     def on_read_ready(self, sel, sock, mask):
         # try:
         addr = sock.getpeername()
-        if not self.on_read or not self.on_read(sel, sock, addr):
+        if not self.on_read or not self.on_read(sel, sock, addr, root=self.root):
             if self.on_disconn:
                 self.on_disconn(sock, addr)
             sel.unregister(sock)
@@ -47,10 +49,10 @@ class SocketServ:
                     callback(sel, key.fileobj, mask)
 
 
-def create_workers(port, qty):
+def create_workers(port, qty, root):
     workers_ports = ports(port, qty)
-    print(workers_ports)
-    servers = [SocketServ(port) for port in workers_ports]
+    print("ports in use: ", workers_ports)
+    servers = [SocketServ(port=port, root=root) for port in workers_ports]
     threads = [threading.Thread(target=serv.start_server) for serv in servers]
     for th in threads:
         th.start()
@@ -58,7 +60,11 @@ def create_workers(port, qty):
 
 
 start_port = 12121
-workers_qty = 1
 
 if __name__ == "__main__":
-    create_workers(port=start_port, qty=workers_qty)
+    parser = argparse.ArgumentParser(description="workers qty, assets root dir path")
+    parser.add_argument("-w", "--wqty", action="store", type=int, default=1)
+    parser.add_argument("-r", "--root", action="store", default="DOCUMENT_ROOT/")
+    args = parser.parse_args()
+
+    create_workers(port=start_port, qty=args.wqty, root=args.root)
