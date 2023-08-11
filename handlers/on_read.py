@@ -1,4 +1,5 @@
 from utils import time_now_rfc_1123, data_decode
+import os
 
 
 def on_read_handler(sel, sock, addr):
@@ -13,20 +14,24 @@ def on_read_handler(sel, sock, addr):
 
     now = time_now_rfc_1123()
     method, file = data_decode(data)
-    print("method ===>", method, "file ===>", file)
+    file_path = os.path.abspath("DOCUMENT_ROOT/httptest/" + str(file))
+    file_size = os.path.getsize(file_path)
+    file_requested = open(file_path, "rb")
+
+    print("method:", method, "\nfile:", file, "\nsize:", file_size)
 
     try:
         if method == "GET":
             sock.send(bytes("HTTP/1.1 200 OK\r\n", "utf-8"))
             sock.send(bytes(f"Date: {now}\r\n", "utf-8"))
-            sock.send(bytes("Server: socket/1.0\r\n\r\n", "utf-8"))
-            sock.send(bytes(f"Content-Length: {len(data)}\r\n", "utf-8"))
-            sock.send(bytes("Content-Type: text/html\r\n\r\n", "utf-8"))
+            sock.send(bytes("Server: socket/1.0\r\n", "utf-8"))
+            sock.send(bytes(f"Content-Length: {file_size}\r\n", "utf-8"))
+            sock.send(bytes("Content-Type: text/html\r\n", "utf-8"))
             sock.send(bytes("Connection: close\r\n\r\n", "utf-8"))
-            sock.send(data)
+            sock.send(bytes(file_requested.read()))
         elif method == "HEAD":
             sock.send(bytes("HTTP/1.1 204 OK\r\n", "utf-8"))
-            sock.send(bytes(f"Content-Length: {len(data)}\r\n\r\n", "utf-8"))
+            sock.send(bytes(f"Content-Length: {file_size}\r\n\r\n", "utf-8"))
         else:
             sock.send(bytes("HTTP/1.1 405 Not Allowed\r\n", "utf-8"))
             sock.send(bytes("Content-Type: text/html\r\n\r\n", "utf-8"))
