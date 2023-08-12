@@ -1,6 +1,6 @@
 import os
 
-from utils import time_now_rfc_1123, data_decode
+from utils import time_now_rfc_1123, data_decode, file_path
 
 
 def on_read_handler(sel, sock, addr, root):
@@ -15,10 +15,18 @@ def on_read_handler(sel, sock, addr, root):
 
     now = time_now_rfc_1123()
     method, file = data_decode(data)
-    file_path = os.path.abspath(root + str(file))
-    file_size = os.path.getsize(file_path)
 
-    with open(file_path, "rb") as f:
+    # prevents server down when browser asks for favicon.ico
+    if file == "favicon.ico":
+        sock.send(bytes("HTTP/1.1 200 OK\r\n", "utf-8"))
+        sock.close()
+        sel.unregister(sock)
+        return True
+
+    fp = file_path(root, file)
+    file_size = os.path.getsize(fp)
+
+    with open(fp, "rb") as f:
         try:
             if method == "GET":
                 sock.send(bytes("HTTP/1.1 200 OK\r\n", "utf-8"))
