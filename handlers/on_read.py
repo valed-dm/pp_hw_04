@@ -20,7 +20,7 @@ def on_read_handler(sel, sock, addr, root):
         sock.send(bytes("HTTP/1.1 200 OK\r\n", "utf-8"))
         return False
 
-    if "/" in file:
+    if "/" in file and not file.endswith("/"):
         root, file = set_root(root, file)
 
     response, fp, file_size, file_exists = on_file(root, file)
