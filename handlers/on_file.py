@@ -8,8 +8,8 @@ def on_file(root, file):
     file_exists = True
 
     fp = file_path(root, file)
-    
-    if os.path.exists(fp):
+
+    if fp and os.path.exists(fp):
         print("os.path.exists(fp) =>", os.path.exists(fp))
         file_size = os.path.getsize(fp)
     else:
