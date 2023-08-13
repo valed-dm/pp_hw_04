@@ -1,4 +1,4 @@
-from utils import time_now_rfc_1123, data_decode, c_type
+from utils import time_now_rfc_1123, data_decode, c_type, set_root
 from .on_file import on_file
 
 
@@ -19,6 +19,10 @@ def on_read_handler(sel, sock, addr, root):
     if file == "favicon.ico":
         sock.send(bytes("HTTP/1.1 200 OK\r\n", "utf-8"))
         return False
+
+    if "/" in file:
+        root, file = set_root(root, file)
+
     response, fp, file_size, file_exists = on_file(root, file)
     content_type = c_type(fp)
 
