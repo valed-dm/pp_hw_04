@@ -64,9 +64,7 @@ start_port = 12121
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="workers qty, assets root dir path")
     parser.add_argument("-w", "--wqty", action="store", type=int, default=1)
-    parser.add_argument(
-        "-r", "--root", action="store", default="DOCUMENT_ROOT/httptest/"
-    )
+    parser.add_argument("-r", "--root", action="store", default="DOCUMENT_ROOT/")
     args = parser.parse_args()
 
     create_workers(port=start_port, qty=args.wqty, root=args.root)
