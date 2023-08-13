@@ -14,7 +14,7 @@ def on_file(root, file):
         file_size = os.path.getsize(fp)
     else:
         response = "HTTP/1.1 404 Not Found\r\n"
-        fp = os.path.join("DOCUMENT_ROOT", "404.html")
+        fp = os.path.join("utils", "404.html")
         file_size = os.path.getsize(fp)
         file_exists = False
 
