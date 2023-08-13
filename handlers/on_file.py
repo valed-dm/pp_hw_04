@@ -10,7 +10,7 @@ def on_file(root, file):
     fp = file_path(root, file)
 
     if fp and os.path.exists(fp):
-        print("os.path.exists(fp) =>", os.path.exists(fp))
+        # print("os.path.exists(fp) =>", os.path.exists(fp))
         file_size = os.path.getsize(fp)
     else:
         response = "HTTP/1.1 404 Not Found\r\n"

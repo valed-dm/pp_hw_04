@@ -13,11 +13,11 @@ def file_path(root, file):
         return False
 
     fp = find_path(root, file)
-    print("fp =>", fp)
+    # print("fp =>", fp)
     if fp:
         res = fp
     else:
         res = os.path.join(root + file)
 
-    print("path =>", res)
+    # print("path =>", res)
     return res
