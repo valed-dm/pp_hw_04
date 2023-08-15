@@ -8,7 +8,8 @@ def file_path(root, file):
 
     if file.endswith("/"):
         print("file.endswith =>", file)
-        res = root + "/" + file + "index.html"
+        # a way to avoid occasional double //, not necessary here
+        res = root.rstrip("/") + "/" + file + "index.html"
         print("res => ", res)
         if os.path.exists(res):
             return res

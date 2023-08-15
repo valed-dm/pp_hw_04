@@ -17,11 +17,14 @@ def set_root(root, file):
 
     file_path_split = file.split("/")
     file_name = file_path_split[-1]
-    file_dir_ends_at = len(file_path_split) - 1
-    file_dir = file_path_split[:file_dir_ends_at]
-    file_dir = "/".join(file_dir)
-    new_root = os.path.join(root, file_dir + "/")
-    set_once = True
-    print("new root =>", new_root)
+    if file_name == "wikipedia_russia.html":
+        file_dir_ends_at = len(file_path_split) - 1
+        file_dir = file_path_split[:file_dir_ends_at]
+        file_dir = "/".join(file_dir)
+        new_root = os.path.join(root, file_dir)
+        set_once = True
+        print("new root =>", new_root)
+    else:
+        new_root = root
 
     return new_root, file_name
