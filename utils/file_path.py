@@ -7,7 +7,9 @@ def file_path(root, file):
     """Defines file path"""
 
     if file.endswith("/"):
-        res = os.path.join(root + file + "index.html")
+        print("file.endswith =>", file)
+        res = root + "/" + file + "index.html"
+        print("res => ", res)
         if os.path.exists(res):
             return res
         return False
@@ -17,7 +19,8 @@ def file_path(root, file):
     if fp:
         res = fp
     else:
-        res = os.path.join(root + file)
+        res = root + "/" + file
 
     # print("path =>", res)
+    print("res =>", res)
     return res
