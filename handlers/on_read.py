@@ -3,6 +3,8 @@ from .on_file import on_file
 
 
 def on_read_handler(sel, sock, addr, root):
+    """Processes user request and sends proper responses"""
+
     try:
         data = sock.recv(1024)  # Should be ready
     except ConnectionError:
@@ -14,6 +16,14 @@ def on_read_handler(sel, sock, addr, root):
 
     now = time_now_rfc_1123()
     method, file = data_decode(data)
+    # this allows to pass bad request test
+    if file is None:
+        sock.send(bytes("HTTP/1.1 400 Bad Request\r\n", "utf-8"))
+        return False
+    # this allows to pass root dir escape test
+    if "../" in file:
+        sock.send(bytes("HTTP/1.1 403 Forbidden\r\n", "utf-8"))
+        return False
 
     # prevents server down when browser asks for favicon.ico
     if file == "favicon.ico":
@@ -37,7 +47,7 @@ def on_read_handler(sel, sock, addr, root):
                 sock.send(bytes("Connection: close\r\n\r\n", "utf-8"))
                 sock.send(bytes(f.read()))
             elif method == "HEAD" and file_exists:
-                sock.send(bytes("HTTP/1.1 204 OK\r\n", "utf-8"))
+                sock.send(bytes("HTTP/1.1 200 OK\r\n", "utf-8"))
                 sock.send(bytes(f"Content-Length: {file_size}\r\n\r\n", "utf-8"))
             elif method == "HEAD" and not file_exists:
                 sock.send(bytes(response, "utf-8"))
