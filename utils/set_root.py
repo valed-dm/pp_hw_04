@@ -5,7 +5,7 @@ new_root = ""
 
 
 def set_root(root, file):
-    """Sets new root dir if file name contains enclosed dirs"""
+    """Sets new root dir for wikipedia_russia.html"""
 
     global set_once
     global new_root
@@ -19,7 +19,7 @@ def set_root(root, file):
     file_name = file_path_split[-1]
     file_dir_ends_at = len(file_path_split) - 1
     file_dir = file_path_split[:file_dir_ends_at]
-    file_dir = "".join(file_dir)
+    file_dir = "/".join(file_dir)
     new_root = os.path.join(root, file_dir + "/")
     set_once = True
     print("new root =>", new_root)
