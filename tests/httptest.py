@@ -215,9 +215,9 @@ class HttpServer(unittest.TestCase):
         h = {}
         for k, v in enumerate(headers):
             if v3:
-                (name, value) = re.split(b"\s*:\s*", v, 1)
+                (name, value) = re.split(b"\\s*:\\s*", v, 1)
             else:
-                (name, value) = re.split("\s*:\s*", v, 1)
+                (name, value) = re.split("\\s*:\\s*", v, 1)
             h[name] = value
         if int(code) == 200:
             if v3:
