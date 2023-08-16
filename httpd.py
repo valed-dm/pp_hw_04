@@ -4,7 +4,7 @@ import socket
 import threading
 
 from handlers import on_connect, on_disconnect, on_read_handler
-from utils import ports
+from utils import ports, user_input
 
 
 class SocketServ:
@@ -52,6 +52,7 @@ class SocketServ:
 def create_workers(port, qty, root):
     workers_ports = ports(port, qty)
     print("ports in use: ", workers_ports)
+    print("root document dir: ", root)
     servers = [SocketServ(port=port, root=root) for port in workers_ports]
     threads = [threading.Thread(target=serv.start_server) for serv in servers]
     for th in threads:
@@ -62,9 +63,11 @@ def create_workers(port, qty, root):
 start_port = 12121
 
 if __name__ == "__main__":
+    wks, rtd = user_input()
+
     parser = argparse.ArgumentParser(description="workers qty, assets root dir path")
     parser.add_argument("-w", "--wqty", action="store", type=int, default=1)
     parser.add_argument("-r", "--root", action="store", default="DOCUMENT_ROOT")
     args = parser.parse_args()
 
-    create_workers(port=start_port, qty=args.wqty, root=args.root)
+    create_workers(port=start_port, qty=wks or args.wqty, root=rtd or args.root)
