@@ -7,10 +7,10 @@ def file_path(root, file):
     """Defines file path"""
 
     if file.endswith("/"):
-        print("file.endswith =>", file)
+        # print("file.endswith =>", file)
         # a way to avoid occasional double //, not necessary here
         res = root.rstrip("/") + "/" + file + "index.html"
-        print("res => ", res)
+        # print("res => ", res)
         if os.path.exists(res):
             return res
         return False
@@ -21,7 +21,5 @@ def file_path(root, file):
         res = fp
     else:
         res = root + "/" + file
-
-    # print("path =>", res)
-    print("res =>", res)
+    # print("res =>", res)
     return res
