@@ -81,6 +81,12 @@ docker run --net=host -d --name cbal dmvaled/cbal
 
 [<img src="images/img_17.png" width="1000"/>](images/img_17.png)
 
+Результаты тестирования относительны:
+- зависят от ресурсов машины
+- от конкуренции между apache и сервером
+
+Рост нагрузочной способности на порядок при запуске новых потоков отлично виден.
+
 ### Отдача файлов
 
 [<img src="images/img_18.png" width="1000"/>](images/img_18.png)
