@@ -7,6 +7,8 @@ from utils import file_path
 
 
 def on_file(root, file):
+    """On file handler"""
+
     response = "HTTP/1.1 200 OK\r\n"
     file_exists = True
 
