@@ -1,3 +1,6 @@
+"""On read handler"""
+
+
 from utils import time_now_rfc_1123, data_decode, c_type, set_root
 from .on_file import on_file
 
