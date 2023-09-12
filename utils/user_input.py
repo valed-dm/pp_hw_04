@@ -1,7 +1,12 @@
+"""User input"""
+
+
 import sys
 
 
 def user_input():
+    """User input"""
+
     wks = None
     rtd = None
     if "-w" not in sys.argv:

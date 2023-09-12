@@ -1,3 +1,6 @@
+"""Converts now to RFC 1123 format"""
+
+
 from datetime import datetime
 from time import mktime
 from wsgiref.handlers import format_date_time

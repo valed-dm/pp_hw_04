@@ -1,3 +1,6 @@
+"""Right strips string"""
+
+
 def smart_rstrip(string, char):
     """Right strips string from first occurrence from given char"""
 

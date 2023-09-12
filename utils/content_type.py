@@ -1,7 +1,12 @@
+"""Content type checker"""
+
+
 from .file_extension import f_ext
 
 
 def c_type(path):
+    """Provides proper content type"""
+
     ct = "text/html"
 
     ext = f_ext(path)

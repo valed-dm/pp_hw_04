@@ -6,7 +6,9 @@ disable=
      R0911, # Too many return statements (7/6) (too-many-return-statements)
      R0912, # Too many branches (13/12) (too-many-branches)
      R0914, # Too many local variables (16/15) (too-many-locals)
+     R1710, # Either all return statements in a function should return an expression, or none
      W0125, # Using a conditional statement with a constant value (using-constant-test)
+     W0603, # Using the global statement (global-statement)
      W0612, # Unused variable 'data' (unused-variable)
      W0613, # Unused argument 'sock' (unused-argument)
 

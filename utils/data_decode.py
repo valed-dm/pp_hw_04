@@ -1,3 +1,6 @@
+"""Decodes HTTP request data"""
+
+
 from urllib.parse import unquote
 
 from .fn_replace import fn_replace

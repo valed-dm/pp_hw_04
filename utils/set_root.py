@@ -1,3 +1,6 @@
+"""Sets new root dir for wikipedia_russia.html"""
+
+
 import os
 
 set_once = False

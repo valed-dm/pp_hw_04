@@ -1,3 +1,6 @@
+"""Manages file path"""
+
+
 import os
 
 from .find_path_to_file import find_path
