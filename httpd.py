@@ -1,3 +1,6 @@
+"""Main server file"""
+
+
 import argparse
 import selectors
 import socket
@@ -19,6 +22,8 @@ class SocketServ:
         self.on_disconn = on_disconnect
 
     def on_accept_ready(self, sel, serv_sock, mask):
+        """On accept ready"""
+
         sock, addr = serv_sock.accept()  # Should be ready
         # sock.setblocking(False)
         sel.register(sock, selectors.EVENT_READ, self.on_read_ready)
@@ -26,6 +31,8 @@ class SocketServ:
             self.on_conn(sock, addr)
 
     def on_read_ready(self, sel, sock, mask):
+        """On read ready"""
+
         # try:
         addr = sock.getpeername()
         if not self.on_read or not self.on_read(sel, sock, addr, root=self.root):
@@ -35,6 +42,8 @@ class SocketServ:
             sock.close()
 
     def start_server(self):
+        """Starts server"""
+
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv_sock:
             serv_sock.bind((self.host, self.port))
             serv_sock.listen(1)
@@ -50,6 +59,8 @@ class SocketServ:
 
 
 def create_workers(port, qty, root):
+    """Creates server workers"""
+
     workers_ports = ports(port, qty)
     print("ports in use: ", workers_ports)
     print("root document dir: ", root)
