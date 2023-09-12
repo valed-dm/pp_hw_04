@@ -1,27 +1,33 @@
 #!/usr/bin/env python
-
-import sys
-
-v3 = sys.version_info[0] == 3
+"""Base tests to check if files are served properly"""
 
 import re
 import socket
+import sys
+import unittest
+
+v3 = sys.version_info[0] == 3
 
 if v3:
     import http.client as httplib
 else:
     import httplib2 as httplib
-import unittest
 
 
 class HttpServer(unittest.TestCase):
+    """Tests for python socket  server"""
+
     host = "localhost"
     port = 80
 
     def setUp(self):
+        """Setup"""
+
         self.conn = httplib.HTTPConnection(self.host, self.port, timeout=10)
 
     def tearDown(self):
+        """Teardown"""
+
         self.conn.close()
 
     def test_empty_request(self):
@@ -335,12 +341,17 @@ suite.addTest(a)
 
 
 class NewResult(unittest.TextTestResult):
+    """NewResult class"""
+
     def getDescription(self, test):
+        """Get description method"""
         doc_first_line = test.shortDescription()
         return doc_first_line or ""
 
 
 class NewRunner(unittest.TextTestRunner):
+    """New runner class"""
+
     resultclass = NewResult
 
 

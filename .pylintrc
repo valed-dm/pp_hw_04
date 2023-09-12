@@ -1,8 +1,11 @@
 [MASTER]
 disable=
      C0103, # Variable name "ct" doesn't conform to snake_case naming style (invalid-name)
+     R0903, # Too few public methods (1/2) (too-few-public-methods)
+     R0904, # Too many public methods (25/20) (too-many-public-methods)
      R0911, # Too many return statements (7/6) (too-many-return-statements)
      R0912, # Too many branches (13/12) (too-many-branches)
+     R0914, # Too many local variables (16/15) (too-many-locals)
      W0612, # Unused variable 'data' (unused-variable)
      W0613, # Unused argument 'sock' (unused-argument)
 
