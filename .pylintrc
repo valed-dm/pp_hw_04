@@ -1,0 +1,10 @@
+[MASTER]
+disable=
+     C0103, # Variable name "ct" doesn't conform to snake_case naming style (invalid-name)
+     W0612, # Unused variable 'data' (unused-variable)
+     W0613, # Unused argument 'sock' (unused-argument)
+
+[BASIC]
+
+[FORMAT]
+max-line-length=130
